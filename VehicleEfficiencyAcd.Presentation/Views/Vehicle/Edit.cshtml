@@ -1,0 +1,34 @@
+﻿@model EditRequest
+
+<form class="d-flex flex-column gap-3" asp-controller="Vehicle" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group py-1">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group py-1">
+        <label asp-for="Plate"></label>
+        <input asp-for="Plate" class="form-control" />
+        <span asp-validation-for="Plate" class="text-danger"></span>
+    </div>
+
+
+
+    <div class="form-group py-1">
+        <label>Existing Image</label><br />
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="Vehicle Image" width="200" />
+        }
+    </div>
+
+    <div class="form-group py-1">
+        <label>New Image (Optional)</label>
+        <input type="file" name="newImageFile" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+</form>

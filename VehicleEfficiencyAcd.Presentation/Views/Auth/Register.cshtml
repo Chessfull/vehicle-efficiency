@@ -1,0 +1,67 @@
+﻿@model RegisterRequest
+
+<!-- ▼ I dont want display scrool bar on this page ▼ -->
+<style>
+
+    body{
+        overflow:hidden;
+       
+    }
+
+</style>
+
+<!-- ▼ Register Form ▼ -->
+<section class="sign-up-form-container d-flex justify-content-center align-items-center mt-5">
+   
+    <div class="container">
+        <div class="row justify-content-center align-items-center gy-4">
+            <div class="col-12 col-md-8 col-lg-5 bg-white p-4 rounded shadow-lg">
+                <h2 class="text-center mb-4">Register</h2>
+
+                <!-- ▼ Taking message from controller with viewbag if there is error and showing ▼ -->
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+
+                <!-- ▼ Register Submit Form ▼ -->
+                <form method="post" asp-controller="Auth" asp-action="Register">
+                    <div class="mb-3">
+                        <input asp-for="FirstName" type="text" class="form-control" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="LastName" type="text" class="form-control" placeholder="Enter your surname" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Create password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input asp-for="PasswordConfirm" type="password" class="form-control" placeholder="Confirm password" required>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" required>
+                        <label class="form-check-label">I accept all terms & condition</label>
+                    </div>
+
+                    <div class="d-grid">
+                        <input type="submit" class="btn btn-primary" value="Register Now">
+                    </div>
+                </form>
+            </div>
+
+            <!-- ▼ Image ▼ -->
+            <div class="col-12 col-lg-5 d-flex justify-content-center">
+                <img src="~/images/form-background-image.svg" alt="form-image" class="img-fluid rounded">
+            </div>
+
+        </div>
+    </div>
+</section>

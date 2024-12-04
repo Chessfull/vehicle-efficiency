@@ -1,0 +1,49 @@
+﻿@model AddVehicleUsageViewModel
+
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <form class="d-flex flex-column gap-3" asp-controller="VehicleUsage" asp-action="Add" method="post">
+         
+            <div class="form-group py-1">
+                <label asp-for="VehicleId" class="control-label">Vehicle</label>
+                <select asp-for="VehicleId" class="form-control" asp-items="Model.Vehicles">
+                    <option value="">-- Select a vehicle --</option>
+                </select>
+                <span asp-validation-for="VehicleId" class="text-danger"></span>
+            </div>
+
+           
+            <div class="form-group py-1">
+                <label asp-for="ActiveHours" class="control-label">Active Hours</label>
+                <input asp-for="ActiveHours" class="form-control" type="number" min="0" max="168" />
+                <span asp-validation-for="ActiveHours" class="text-danger"></span>
+            </div>
+
+          
+            <div class="form-group py-1">
+                <label asp-for="MaintenanceHours" class="control-label">Maintenance Hours</label>
+                <input asp-for="MaintenanceHours" class="form-control" type="number" min="0" max="168" />
+                <span asp-validation-for="MaintenanceHours" class="text-danger"></span>
+            </div>
+
+         
+            <div class="form-group py-1">
+                <label asp-for="Week" class="control-label">Week</label>
+                <input asp-for="Week" class="form-control" type="text" placeholder="e.g., w1, w2, etc." />
+                <span asp-validation-for="Week" class="text-danger"></span>
+            </div>
+
+           
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Add</button>
+                
+            </div>
+        </form>
+    </div>
+</div>

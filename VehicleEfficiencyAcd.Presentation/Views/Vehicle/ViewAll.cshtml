@@ -1,0 +1,298 @@
+﻿@model VehicleListViewModel
+
+<div class="container">
+
+    <!-- ▼ Taking message from controller with viewbag if there is error and showing ▼ -->
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="d-flex gap-2">
+
+        <!-- Add Vehicle Button -->
+        <div class="d-flex mb-3">
+            <button class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addVehicleModal">
+                <i class="fa fa-plus"></i> Vehicle
+            </button>
+        </div>
+
+        <!-- Add Vehicle Usage Button -->
+        <div class="d-flex mb-3">
+            <button class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addVehicleUsage">
+                <i class="fa fa-plus"></i> Usage
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ▼ Vehicle Cards ▼ -->
+    <div class="row g-4">
+        @foreach (var item in Model.Vehicles)
+        {
+            <div class="col-sm-8 col-md-6 col-lg-4">
+                <div class="vehicle-card">
+                    
+                    <!-- Card Image -->
+                    <img src="@item.ImagePath" class="vehicle-image" alt="@item.Name">
+                    <div class="card-body">
+                        <div class="vehicle-info">
+                            <h5 class="vehicle-title">@item.Plate</h5>
+                            <p class="card-text">@item.Name</p>
+                            <div class="card-buttons">
+                                
+                                <!-- Edit Button -->
+                                <button class="btn btn-warning btn-block edit-vehicle-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editVehicleModal"
+                                        data-id="@item.Id">
+                                    Edit
+                                </button>
+
+                                <!-- Delete Button -->
+                                <form method="post" asp-controller="Vehicle" asp-action="Delete" asp-route-id="@item.Id" onsubmit="return confirm('Are you sure you want to delete this vehicle?');" class="d-inline-block">
+                                    <button type="submit" class="btn btn-danger btn-block">Delete</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- ▼ Pagination ▼ -->
+    <div class="d-flex justify-content-center mt-4">
+        
+        <nav aria-label="Page navigation" >
+            
+            <ul class="pagination">
+                @if (Model.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("ViewAll", new { page = Model.CurrentPage - 1, pageSize = 9 })">Previous</a>
+                    </li>
+                }
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link"  href="@Url.Action("ViewAll", new { page = i, pageSize = 9 })">@i</a>
+                    </li>
+                }
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("ViewAll", new { page = Model.CurrentPage + 1, pageSize = 9 })">Next</a>
+                    </li>
+                }
+            </ul>
+
+        </nav>
+
+    </div>
+</div>
+
+<!-- ▼ With Click Edit Modal ▼ -->
+<div class="modal-wrapper">
+    <div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editVehicleModalLabel">Edit Vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="editVehicleModalContent">
+                        <!-- I m rendering content with js below -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ▼ With Click Add Vehicle Modal ▼ -->
+<div class="modal-wrapper">
+    <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addVehicleModalLabel">Add Vehicle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="addVehicleModalContent">
+                        <!-- I m rendering content with js below -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ▼ With Click Add Vehicle Usage Modal ▼ -->
+<div class="modal-wrapper">
+    <div class="modal fade" id="addVehicleUsage" tabindex="-1" aria-labelledby="addVehicleUsageLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addVehicleUsageLabel">Add Vehicle Usage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="addVehicleUsageContent">
+                        <!-- I m rendering content with js below -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ▼ With Logged in Login-Welcome Modal ▼ -->
+
+<!-- ▼ I managed this logic in auth controller login endpoint ▼ -->
+;@if (TempData["ShowWelcomeModal"] is true) 
+{
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="welcomeModalLabel">Welcome</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body text-center">
+                    <!-- Success Message -->
+                    <p class="fw-bold fs-4 text-success">
+                        @TempData["SuccessMessage"]
+                    </p>
+
+                    <!-- Decorative Image -->
+                    <img src="~/images/logo/acd-logo.png"
+                         alt="Welcome"
+                         class="img-fluid rounded shadow-sm mt-3"
+                         style="max-width: 300px;">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- ▼ Vanilla js for edit modal form, with click going fetch to controller, endpoint  ▼ -->
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const editButtons = document.querySelectorAll(".edit-vehicle-btn");
+
+        editButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const vehicleId = this.getAttribute("data-id");
+                const modalContent = document.getElementById("editVehicleModalContent");
+
+                // Clear previous content
+                modalContent.innerHTML = '<div class="text-center">Loading...</div>';
+
+                // Fetching the content from endpoint
+                fetch(`/Vehicle/Edit/${vehicleId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        modalContent.innerHTML = data;
+                    })
+                    .catch(err => {
+                        modalContent.innerHTML = '<div class="text-danger">Error loading content</div>';
+                    });
+            });
+        });
+    });
+</script>
+
+<!-- ▼ Vanilla js for add vehicle modal form, with click going fetch to controller, endpoint  ▼ -->
+<script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+        const addVehicleModal = document.getElementById("addVehicleModal");
+        const addVehicleModalContent = document.getElementById("addVehicleModalContent");
+
+        // Clear modal content when closed
+        addVehicleModal.addEventListener("hidden.bs.modal", function () {
+            addVehicleModalContent.innerHTML = "";
+        });
+
+        // Load content into Add modal on open
+        addVehicleModal.addEventListener("show.bs.modal", function () {
+            addVehicleModalContent.innerHTML = '<div class="text-center">Loading...</div>';
+
+             // Fetching the content from endpoint
+            fetch('/Vehicle/Add')
+                .then(response => response.text())
+                .then(data => {
+                    addVehicleModalContent.innerHTML = data;
+                })
+                .catch(err => {
+                    addVehicleModalContent.innerHTML = '<div class="text-danger">Error loading content</div>';
+                });
+        });
+    });
+
+
+</script>
+
+<!-- ▼ Vanilla js for add vehicle usage modal form, with click going fetch to controller, endpoint  ▼ -->
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const addVehicleUsage = document.getElementById("addVehicleUsage");
+        const addVehicleUsageContent = document.getElementById("addVehicleUsageContent");
+
+        // Clear modal content when closed
+        addVehicleUsage.addEventListener("hidden.bs.modal", function () {
+            addVehicleUsageContent.innerHTML = "";
+        });
+
+        // Load content into Add modal on open
+        addVehicleUsage.addEventListener("show.bs.modal", function () {
+            addVehicleUsageContent.innerHTML = '<div class="text-center">Loading...</div>';
+
+            // Fetching the content from endpoint
+            fetch('/VehicleUsage/Add')
+                .then(response => response.text())
+                .then(data => {
+                    addVehicleUsageContent.innerHTML = data;
+                })
+                .catch(err => {
+                    addVehicleUsageContent.innerHTML = '<div class="text-danger">Error loading content</div>';
+                });
+        });
+    });
+
+
+</script>
+
+<!-- ▼ Vanilla js for welcome user modal form, with click going fetch to controller, endpoint  ▼ -->
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        const modalElement = document.getElementById("welcomeModal");
+        if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            // Closing the modal after 4 seconds
+            setTimeout(() => {
+                modal.hide();
+            }, 4000);
+        }
+    });
+
+</script>

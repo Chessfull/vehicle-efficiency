@@ -1,0 +1,161 @@
+﻿/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+body {
+    min-height: 100vh;
+    background: rgb(104,82,242);
+    background: linear-gradient(90deg, rgba(104,82,242,1) 0%, rgba(81,56,242,1) 35%, rgba(125,107,242,1) 100%);
+}
+
+
+.nav-logo {
+    width: 140px;
+}
+
+footer {
+    background-color: #F2F2F2;
+}
+
+.nav-item.active {
+    background-color: #D24776;
+}
+
+.nav-link.text-dark.active {
+    color: white;
+    background-color: #D24776;
+    
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #D24776;
+    border:none;
+}
+
+    .btn-primary:hover {
+        background-color: #636468;
+        transition: all 0.3s ease;
+    }
+
+.btn-outline-secondary {
+    color: #F2F2F2;
+    border: none;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: #D04876;
+        color: white;
+        border-color: #D04876;
+        transition: all 0.3s ease;
+    }
+
+/* Navbar */
+.navbar {
+    z-index: 1050;
+}
+
+/* Customize Carousel Controls */
+.custom-carousel-control {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: transparent;
+    border: none;
+}
+
+    .custom-carousel-control.prev {
+        left: 0;
+        margin-left: 20px;
+    }
+
+    .custom-carousel-control.next {
+        right: 0;
+        margin-right: 20px;
+    }
+
+.carousel-item img {
+    max-height: 400px;
+    width: auto;
+    object-fit: contain;
+}
+
+
+.vehicle-card {
+    background-color: white;
+    border: 1px solid #cbcbcb;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 300px;
+    min-width: 300px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+    .vehicle-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 1); /* Making shadow more visible for feeling selected vehicle */
+    }
+
+.vehicle-image {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+}
+
+.vehicle-title {
+    font-size: 1.2em;
+    color: #171717;
+    margin-bottom: 10px;
+    height: 40px;
+    overflow: hidden; /* Ensures text doesn't overflow */
+    text-overflow: ellipsis; /* Adds ellipsis when the text overflows */
+    transition: height 0.3s ease;
+}
+
+.vehicle-info {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    flex-grow: 1;
+    height: 100%; /* Ensures the vehicle info takes available space */
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+
+.modal-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+
+/* For Mobile */
+@media (max-width: 576px) {
+    .carousel .carousel-item h2 {
+        font-size: 1.5rem; 
+    }
+
+    .carousel .carousel-item p {
+        font-size: 1rem; 
+    }
+
+    .btn {
+        font-size: 0.9rem; 
+    }
+}

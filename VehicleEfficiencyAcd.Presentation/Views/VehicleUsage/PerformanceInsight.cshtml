@@ -1,0 +1,409 @@
+﻿@model PerformanceInsightViewModel
+
+<div class="container">
+
+
+    <!-- ▼ Toggle Buttons to Switch Views ( Individual - Total ) ▼ -->
+    <div class="btn-group mb-4" role="group" aria-label="Performance View Toggle">
+        <button id="individualViewBtn" class="btn btn-primary">Individual Performance</button>
+        <button id="totalViewBtn" class="btn btn-secondary">Total Performance</button>
+    </div>
+
+    <!-- ▼ Total Performance Section - With click toggle switch view I defined below as vanilla js  -->
+    <div id="totalPerformanceSection" class="mt-4" style="display:none;">
+        <div class="row g-4">
+
+            <!-- Active hours performance % chart -->
+            <div class="col-12 col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title mb-0 text-center">
+                            Active Hours Performance
+                            <small class="d-block text-muted fs-6 mt-1">Comparison across all vehicles</small>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative; min-height: 350px;">
+                            <canvas id="totalActivePerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Idle Performance % Chart -->
+            <div class="col-12 col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title mb-0 text-center">
+                            Idle Time Analysis
+                            <small class="d-block text-muted fs-6 mt-1">Trends across fleet vehicles</small>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative; min-height: 350px;">
+                            <canvas id="totalIdlePerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ▼ Summary Statistics Below Charts - 4 card for summary, for now values are static ▼ -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="p-2 bg-primary bg-opacity-10 rounded">
+                                            <i class="fas fa-clock text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-muted small">Average Active Time</div>
+                                        <div class="fw-semibold">85.5%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="p-2 bg-warning bg-opacity-10 rounded">
+                                            <i class="fas fa-pause text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-muted small">Average Idle Time</div>
+                                        <div class="fw-semibold">14.5%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="p-2 bg-success bg-opacity-10 rounded">
+                                            <i class="fas fa-truck text-success"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-muted small">Total Vehicles</div>
+                                        <div class="fw-semibold">12</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="p-2 bg-info bg-opacity-10 rounded">
+                                            <i class="fas fa-chart-line text-info"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-muted small">Performance Trend</div>
+                                        <div class="fw-semibold">+2.4%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ▼ Individual Performance Section - With click toggle switch view I defined below as vanilla js  -->
+    
+    <div id="vehiclePerformanceSection">
+        @foreach (var vehicle in Model.VehiclePerformanceData)
+        {
+            <div class="card shadow-sm mb-4" id="card-@vehicle.VehicleId">
+                <div class="card-body p-3">
+                    <div class="row">
+                        
+                        <!-- Vehicle Image and Plate -->
+                        <div class="col-12 col-md-4 mt-5">
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="mb-3">
+                                    <img src="@vehicle.VehicleImagePath"
+                                         alt="@vehicle.VehicleName"
+                                         class="img-fluid rounded"
+                                         style="max-width: 300px;" />
+                                </div>
+                                <h5 class="text-center mb-0 fw-semibold">
+                                    @vehicle.VehicleName
+                                    <span class="d-block text-muted fs-6">@vehicle.VehiclePlate</span>
+                                </h5>
+                            </div>
+                        </div>
+
+                        <!-- Active Hours Graph -->
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="h-100">
+                                <h6 class="border-bottom pb-1 text-center">Active Hours / Total Hours</h6>
+                                <div class="chart-container" style=" position: relative; min-height: 220px; padding-top: 10px;">
+                                    <canvas id="chart-@vehicle.VehicleId"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Idle Time Graph -->
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="h-100">
+                                <h6 class="border-bottom pb-1 text-center">Idle Time / Total Hours</h6>
+                                <div class="chart-container" style=" position: relative; min-height: 220px; padding-top: 10px;">
+                                    <canvas id="idleChart-@vehicle.VehicleId"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            // *** I used chart.js in this project *** -> Defined as cdn in layout
+            <script>
+
+
+                
+                // JavaScript for Individual Active Hours Graph
+                // Defining chart and options
+                var ctx = document.getElementById('chart-@vehicle.VehicleId').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: @Html.Raw(Json.Serialize(vehicle.WeeklyData.Select(wd => wd.Week).ToArray())),
+                        datasets: [{
+                            label: 'Active Hours / Total Hours',
+                            data: @Html.Raw(Json.Serialize(vehicle.WeeklyData.Select(wd => wd.Ratio * 100).ToArray())),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                top: 30 // Add space above the chart
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: function (value) { return value.toFixed(0) + '%'; },
+                                color: '#000'
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                // JavaScript for Idle Hours Graph
+                // Defining chart and options
+                var ctxIdle = document.getElementById('idleChart-@vehicle.VehicleId').getContext('2d');
+                var idleChart = new Chart(ctxIdle, {
+                    type: 'line',  // Changed from 'bar' to 'line'
+                    data: {
+                        labels: @Html.Raw(Json.Serialize(vehicle.WeeklyData.Select(wd => wd.Week).ToArray())),
+                        datasets: [{
+                            label: 'Idle Time / Total Hours',
+                            data: @Html.Raw(Json.Serialize(vehicle.WeeklyData.Select(wd => (168 - (wd.ActiveHours + wd.MaintenanceHours)) / 168 * 100).ToArray())),
+                            borderColor: '#D24776',
+                            backgroundColor: '#D24776',
+                            borderWidth: 2,
+                            fill: false,  // No fill for the line
+                            tension: 0.3  // Adds a smooth curve to the line
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                top: 30 // Add space above the chart
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: function (value) { return value.toFixed(0) + '%'; },
+                                color: '#000'
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                // ▼ This part for toggle view ▼
+                // Add events
+                individualViewBtn.addEventListener('click', function () {
+                    
+                    // Show the individual vehicle performance section
+                    vehiclePerformanceSection.style.display = 'block';
+
+                    // Hide the total performance section
+                    totalPerformanceSection.style.display = 'none';
+
+                    // Switch button styles
+                    individualViewBtn.classList.add('btn-primary');
+                    individualViewBtn.classList.remove('btn-secondary');
+
+                    totalViewBtn.classList.add('btn-secondary');
+                    totalViewBtn.classList.remove('btn-primary');
+                });
+
+                totalViewBtn.addEventListener('click', function () {
+                    
+                    // Show the total performance section
+                    totalPerformanceSection.style.display = 'block';
+                    // Hide the individual vehicle performance section
+                    vehiclePerformanceSection.style.display = 'none';
+
+                    // Switch button styles
+                    totalViewBtn.classList.add('btn-primary');
+                    totalViewBtn.classList.remove('btn-secondary');
+
+                    individualViewBtn.classList.add('btn-secondary');
+                    individualViewBtn.classList.remove('btn-primary');
+                });
+
+
+                // JavaScript for 'Total view' Active Hours Graph
+                // Defining chart and options
+                var activeCtx = document.getElementById('totalActivePerformanceChart').getContext('2d');
+                var activePerformanceData = @Html.Raw(Json.Serialize(Model.VehiclePerformanceData.Select(v => v.VehiclePlate).ToArray()));
+                var activeHoursData = @Html.Raw(Json.Serialize(Model.VehiclePerformanceData.Select(v => v.WeeklyData.Select(wd => wd.Ratio * 100).ToArray()).ToArray()));
+
+                // Active Hours Chart
+                var totalActivePerformanceChart = new Chart(activeCtx, {
+                    type: 'bar', // Bar chart for active hours
+                    data: {
+                        labels: activePerformanceData, // Vehicle Plates
+                        datasets: [{
+                            label: 'Active Hours / Total Hours',
+                            data: activeHoursData.flat(), // Flattened array of active hours data
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                top: 30 // Add space above the chart
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: function (value) { return value.toFixed(0) + '%'; },
+                                color: '#000'
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                // Get context for Idle Hours Chart
+                var idleCtx = document.getElementById('totalIdlePerformanceChart').getContext('2d');
+                var idleHoursData = @Html.Raw(Json.Serialize(Model.VehiclePerformanceData.Select(v => v.WeeklyData.Select(wd => (168 - (wd.ActiveHours + wd.MaintenanceHours)) / 168 * 100).ToArray()).ToArray()));
+
+                // Idle Hours Chart with options
+                var totalIdlePerformanceChart = new Chart(idleCtx, {
+                    type: 'line', // Line chart for idle hours
+                    data: {
+                        labels: activePerformanceData, // Vehicle Plates
+                        datasets: [{
+                            label: 'Idle Hours / Total Hours',
+                            data: idleHoursData.flat(), // Flattened array of idle hours data
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderWidth: 2,
+                            fill: false,  // No fill for the line chart
+                            tension: 0.3  // Smooth curves for the line
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                top: 30 // Add space above the chart
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false  },
+                            datalabels: {
+                                anchor: 'end',
+                                align: 'top',
+                                formatter: function (value) { return value.toFixed(0) + '%'; },
+                                color: '#000'
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+            </script>
+        }
+
+    </div>
+</div>
+

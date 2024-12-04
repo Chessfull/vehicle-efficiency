@@ -1,0 +1,99 @@
+﻿<!--I dont want display scrool bar on this page --> 
+<style>
+    body{
+        overflow:hidden;
+    }
+</style>
+
+<main class="d-flex justify-content-center align-items-center mt-5">
+   
+    <!-- ▼ Carousel on home page ▼ -->
+    <div id="carouselExample" class="carousel slide container" data-bs-ride="carousel" data-bs-interval="3000">
+        
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+
+        <div class="carousel-inner mt-5">
+
+            <!-- First Slide -->
+            <div class="carousel-item active text-white">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6 d-flex justify-content-center">
+                        <img src="~/images/2.svg" class="img-fluid rounded" alt="Vehicle Performance">
+                    </div>
+                    <div class="col-12 col-md-6 text-center">
+                        <h2 class="display-4 fw-bold">Monitor Vehicle Performance</h2>
+                        <p class="lead lh-lg mt-4">Track and analyze the performance of your fleet in real-time, identifying areas for improvement in efficiency.</p>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-lg px-4 py-2 fs-3">Join Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Slide -->
+            <div class="carousel-item text-white">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6 text-center">
+                        <h1 class="display-3 fw-bold">Real-Time Tracking</h1>
+                        <p class="lead lh-lg mt-4">Track your vehicles in real-time with dynamic insights to improve fleet management.</p>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-lg px-4 py-2 fs-3">Join Us</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-center">
+                        <img src="~/images/3.svg" class="img-fluid rounded" alt="Real-Time Tracking">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Slide -->
+            <div class="carousel-item text-white">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6 d-flex justify-content-center">
+                        <img src="~/images/4.svg" class="img-fluid rounded" alt="Efficiency Optimization">
+                    </div>
+                    <div class="col-12 col-md-6 text-center">
+                        <h2 class="display-4 fw-bold">Optimize Efficiency</h2>
+                        <p class="lead lh-lg mt-4">Minimize idle time and reduce maintenance costs to improve vehicle performance.</p>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-lg px-4 py-2 fs-3">Join Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fourth Slide -->
+            <div class="carousel-item text-white">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6 text-center">
+                        <h2 class="display-4 fw-bold">Data-Driven Insights</h2>
+                        <p class="lead lh-lg mt-4">Make informed decisions with data-driven insights to optimize vehicle maintenance and performance.</p>
+                        <div class="d-flex justify-content-center gap-3 mt-4">
+                            <a asp-controller="Auth" asp-action="Register" class="btn btn-primary btn-lg px-4 py-2 fs-3">Join Us</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-center">
+                        <img src="~/images/1.svg" class="img-fluid rounded" alt="Vehicle Data Insights">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ▼ Carousel Controls left-right arrows ▼ -->
+        <button class="carousel-control-prev custom-carousel-control prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next custom-carousel-control next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+</main>
